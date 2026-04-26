@@ -52,7 +52,9 @@ export function useAuth() {
     setLoading(true);
     try {
       const cleanEmail = (email ?? "").trim().toLowerCase();
-      const hash = await sha256Hex(senha);
+      const cleanSenha = (senha ?? "").trim();
+      if (!cleanSenha) throw new Error("Informe sua senha.");
+      const hash = await sha256Hex(cleanSenha);
       const { data, error } = await supabase
         .from("tv_users")
         .select("id, nome, email, avatar_cor, is_admin, senha_hash")
@@ -63,7 +65,14 @@ export function useAuth() {
         throw new Error(error.message);
       }
       if (!data) throw new Error("E-mail não encontrado. Cadastre-se primeiro.");
-      if (data.senha_hash !== hash) throw new Error("Senha incorreta.");
+      if (data.senha_hash !== hash) {
+        console.error("[TripVision] signIn hash mismatch", {
+          esperado: data.senha_hash.slice(0, 8) + "…",
+          recebido: hash.slice(0, 8) + "…",
+          senhaLen: cleanSenha.length,
+        });
+        throw new Error("Senha incorreta.");
+      }
       const { senha_hash: _omit, ...safe } = data;
       saveSession(safe);
       setUser(safe);
@@ -78,8 +87,10 @@ export function useAuth() {
     try {
       const cleanNome  = (nome  ?? "").trim();
       const cleanEmail = (email ?? "").trim().toLowerCase();
+      const cleanSenha = (senha ?? "").trim();
       if (!cleanNome)  throw new Error("Informe seu nome.");
       if (!cleanEmail) throw new Error("Informe seu e-mail.");
+      if (cleanSenha.length < 6) throw new Error("Senha precisa ter no mínimo 6 caracteres.");
 
       const { data: existing, error: checkErr } = await supabase
         .from("tv_users")
@@ -92,7 +103,7 @@ export function useAuth() {
         throw new Error("Esse e-mail já está cadastrado. Faça login.");
       }
 
-      const hash = await sha256Hex(senha);
+      const hash = await sha256Hex(cleanSenha);
       const { data, error } = await supabase
         .from("tv_users")
         .insert({
