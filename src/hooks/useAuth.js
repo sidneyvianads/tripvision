@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { supabase, sha256Hex } from "../lib/supabase";
+import { supabase, sha256Hex, normalizePassword, normalizeEmail } from "../lib/supabase";
 
 const SESSION_KEY = "tripvision:user:v2";
 
@@ -51,8 +51,8 @@ export function useAuth() {
   const signIn = useCallback(async (email, senha) => {
     setLoading(true);
     try {
-      const cleanEmail = (email ?? "").trim().toLowerCase();
-      const cleanSenha = (senha ?? "").trim();
+      const cleanEmail = normalizeEmail(email);
+      const cleanSenha = normalizePassword(senha);
       if (!cleanSenha) throw new Error("Informe sua senha.");
       const hash = await sha256Hex(cleanSenha);
       const { data, error } = await supabase
@@ -85,9 +85,9 @@ export function useAuth() {
   const signUp = useCallback(async ({ nome, email, senha, avatar_cor }) => {
     setLoading(true);
     try {
-      const cleanNome  = (nome  ?? "").trim();
-      const cleanEmail = (email ?? "").trim().toLowerCase();
-      const cleanSenha = (senha ?? "").trim();
+      const cleanNome  = (nome ?? "").trim();
+      const cleanEmail = normalizeEmail(email);
+      const cleanSenha = normalizePassword(senha);
       if (!cleanNome)  throw new Error("Informe seu nome.");
       if (!cleanEmail) throw new Error("Informe seu e-mail.");
       if (cleanSenha.length < 6) throw new Error("Senha precisa ter no mínimo 6 caracteres.");

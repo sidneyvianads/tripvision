@@ -22,3 +22,27 @@ export async function sha256Hex(text) {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
+
+// Codepoints invisíveis que costumam vazar de autocomplete / paste / teclados
+// mobile e quebrar a comparação de hash:
+// U+00A0 NBSP, U+200B ZWSP, U+200C ZWNJ, U+200D ZWJ, U+2060 WORD JOINER, U+FEFF ZWNBSP/BOM
+const INVISIBLE_CODEPOINTS = [0x00a0, 0x200b, 0x200c, 0x200d, 0x2060, 0xfeff];
+const INVISIBLE_CHARS_RE = new RegExp(
+  "[" + INVISIBLE_CODEPOINTS.map((cp) => "\\u" + cp.toString(16).padStart(4, "0")).join("") + "]",
+  "g"
+);
+
+export function normalizePassword(s) {
+  return (s ?? "")
+    .normalize("NFC")
+    .replace(INVISIBLE_CHARS_RE, "")
+    .trim();
+}
+
+export function normalizeEmail(s) {
+  return (s ?? "")
+    .normalize("NFC")
+    .replace(INVISIBLE_CHARS_RE, "")
+    .trim()
+    .toLowerCase();
+}
