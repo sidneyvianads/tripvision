@@ -139,13 +139,13 @@ export default function Welcome() {
 function Field({ icon: Icon, type, placeholder, value, onChange, autoFocus, maxLength, autoComplete }) {
   return (
     <label className="relative block">
-      <Icon className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#B2BEC3]" />
+      <Icon className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#B2BEC3] pointer-events-none" />
       <input
         type={type}
         autoFocus={autoFocus}
         maxLength={maxLength}
         autoComplete={autoComplete}
-        className="input pl-9"
+        className="input pl-11"
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
