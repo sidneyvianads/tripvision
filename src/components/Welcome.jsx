@@ -55,8 +55,8 @@ export default function Welcome() {
 
         {mode === "login" ? (
           <form onSubmit={handleLogin} className="mt-8 space-y-3">
-            <Field icon={Mail} type="email" placeholder="seu@email.com" value={email} onChange={setEmail} autoFocus />
-            <Field icon={KeyRound} type="password" placeholder="senha" value={senha} onChange={setSenha} />
+            <Field icon={Mail} type="email" placeholder="seu@email.com" value={email} onChange={setEmail} autoFocus autoComplete="email" />
+            <Field icon={KeyRound} type="password" placeholder="senha" value={senha} onChange={setSenha} autoComplete="current-password" />
 
             <button type="submit" className="btn-primary w-full inline-flex items-center justify-center gap-2" disabled={loading}>
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
@@ -78,10 +78,10 @@ export default function Welcome() {
           </form>
         ) : (
           <form onSubmit={handleSignup} className="mt-8 space-y-3">
-            <Field icon={User} type="text" placeholder="Seu nome" value={nome} onChange={setNome} autoFocus maxLength={40} />
-            <Field icon={Mail} type="email" placeholder="seu@email.com" value={email} onChange={setEmail} />
-            <Field icon={KeyRound} type="password" placeholder="senha (mín. 6)" value={senha} onChange={setSenha} />
-            <Field icon={KeyRound} type="password" placeholder="confirmar senha" value={senha2} onChange={setSenha2} />
+            <Field icon={User} type="text" placeholder="Seu nome" value={nome} onChange={setNome} autoFocus maxLength={40} autoComplete="given-name" />
+            <Field icon={Mail} type="email" placeholder="seu@email.com" value={email} onChange={setEmail} autoComplete="email" />
+            <Field icon={KeyRound} type="password" placeholder="senha (mín. 6)" value={senha} onChange={setSenha} autoComplete="new-password" />
+            <Field icon={KeyRound} type="password" placeholder="confirmar senha" value={senha2} onChange={setSenha2} autoComplete="new-password" />
 
             <div className="pt-1">
               <div className="text-xs font-display font-bold text-[#636E72] mb-1.5">Cor do avatar</div>
@@ -136,7 +136,7 @@ export default function Welcome() {
   );
 }
 
-function Field({ icon: Icon, type, placeholder, value, onChange, autoFocus, maxLength }) {
+function Field({ icon: Icon, type, placeholder, value, onChange, autoFocus, maxLength, autoComplete }) {
   return (
     <label className="relative block">
       <Icon className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#B2BEC3]" />
@@ -144,7 +144,7 @@ function Field({ icon: Icon, type, placeholder, value, onChange, autoFocus, maxL
         type={type}
         autoFocus={autoFocus}
         maxLength={maxLength}
-        autoComplete={type === "password" ? "current-password" : type}
+        autoComplete={autoComplete}
         className="input pl-9"
         placeholder={placeholder}
         value={value}
