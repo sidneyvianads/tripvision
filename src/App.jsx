@@ -1,11 +1,14 @@
 import { useEffect, useState, useMemo } from "react";
 import Layout from "./components/Layout";
 import TabBar from "./components/TabBar";
+import Welcome from "./components/Welcome";
 import Countdown from "./components/Countdown";
 import DayCard from "./components/DayCard";
 import AiChat from "./components/AiChat";
 import Checklist from "./components/Checklist";
 import TRIP_DATA from "./data/tripData";
+
+const USER_KEY = "tripvision:user";
 
 const TAB_TITLES = {
   roteiro: "📅 Roteiro",
@@ -13,12 +16,42 @@ const TAB_TITLES = {
   tarefas: "✅ Tarefas",
 };
 
+function loadUser() {
+  try {
+    const raw = localStorage.getItem(USER_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed?.nome ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function App() {
+  const [user, setUser] = useState(() => loadUser());
   const [tab, setTab] = useState("roteiro");
+
+  const handleEnter = (nome) => {
+    const value = { nome, since: new Date().toISOString() };
+    try { localStorage.setItem(USER_KEY, JSON.stringify(value)); } catch {}
+    setUser(value);
+  };
+
+  const handleLogout = () => {
+    if (!confirm("Sair? Seus dados ficam salvos neste navegador.")) return;
+    try { localStorage.removeItem(USER_KEY); } catch {}
+    setUser(null);
+  };
+
+  if (!user) return <Welcome onSubmit={handleEnter} />;
 
   return (
     <>
-      <Layout tabLabel={TAB_TITLES[tab]}>
+      <Layout
+        tabLabel={TAB_TITLES[tab]}
+        userName={user.nome}
+        onLogout={handleLogout}
+      >
         {tab === "roteiro" && <RoteiroView />}
         {tab === "ia"      && <AiChat />}
         {tab === "tarefas" && <Checklist />}
