@@ -1,42 +1,25 @@
 import { useEffect, useState, useMemo } from "react";
-import { Loader2 } from "lucide-react";
-import { useAuth } from "./hooks/useAuth";
-import Login from "./components/Login";
 import Layout from "./components/Layout";
 import TabBar from "./components/TabBar";
 import Countdown from "./components/Countdown";
 import DayCard from "./components/DayCard";
-import GroupChat from "./components/GroupChat";
 import AiChat from "./components/AiChat";
 import Checklist from "./components/Checklist";
 import TRIP_DATA from "./data/tripData";
 
 const TAB_TITLES = {
   roteiro: "📅 Roteiro",
-  chat:    "💬 Chat do grupo",
   ia:      "🤖 Concierge IA",
   tarefas: "✅ Tarefas",
 };
 
 export default function App() {
-  const { user, loading } = useAuth();
   const [tab, setTab] = useState("roteiro");
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FFF9F5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#FF6B6B]" />
-      </div>
-    );
-  }
-
-  if (!user) return <Login />;
 
   return (
     <>
       <Layout tabLabel={TAB_TITLES[tab]}>
         {tab === "roteiro" && <RoteiroView />}
-        {tab === "chat"    && <GroupChat />}
         {tab === "ia"      && <AiChat />}
         {tab === "tarefas" && <Checklist />}
       </Layout>

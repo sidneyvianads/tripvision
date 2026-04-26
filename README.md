@@ -6,37 +6,34 @@ App PWA da viagem da família Viana — **Serra Catarinense & Serra Gaúcha**, 2
 
 - 🗓️ **Roteiro** dos 14 dias com expand/collapse, timeline de atividades, alertas
 - ⏳ **Countdown** em tempo real para a viagem
-- 💬 **Chat do grupo** (Supabase Realtime)
 - 🤖 **Concierge IA** (Claude API via Netlify Function)
-- ✅ **Checklist** colaborativo
+- ✅ **Checklist** local (salvo no navegador)
 - 📞 **Contatos** dos hotéis e restaurantes (com ligar/mapa)
-- 🔐 **Login** Google + magic link por e-mail
 - 📱 **PWA** instalável
+
+Sem login, sem backend de dados — abre direto no roteiro.
 
 ## Stack
 
-React 18 · Vite · Tailwind v4 · Supabase · Claude API · Netlify
+React 19 · Vite 8 · Tailwind v4 · Claude API · Netlify
 
 ## Como rodar
 
 ```bash
 npm install
-cp .env.example .env.local   # cole as keys do Supabase
 npm run dev
 ```
 
-Para subir, ver **[SETUP.md](./SETUP.md)** — tem tudo que precisa configurar no Supabase, Netlify e Anthropic.
+Para ativar a IA local: ver **[SETUP.md](./SETUP.md)**.
 
 ## Estrutura
 
 ```
 src/
-  components/   Login, Layout, TabBar, Countdown, DayCard, DayDetail,
-                ActivityItem, GroupChat, AiChat, Checklist, Contacts
+  components/   Layout, TabBar, Countdown, DayCard, DayDetail,
+                ActivityItem, AiChat, Checklist, Contacts
   data/         tripData.js (14 dias + contatos + cidades + tipos)
-  hooks/        useAuth, useChat
-  lib/          supabase.js
-  App.jsx       roteamento por tab
+  App.jsx       roteamento por tab (3 abas)
 netlify/
   functions/
     chat.mjs    proxy para Claude API
