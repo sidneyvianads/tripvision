@@ -115,8 +115,6 @@ export function useAuth() {
         throw new Error("Cadastro feito, mas não consegui ler de volta. Tente fazer login.");
       }
 
-      saveSession(data);
-      setUser(data);
       return data;
     } finally {
       setLoading(false);
