@@ -33,9 +33,19 @@ export function useAuth() {
       .from("tv_users")
       .select("id, nome, email, avatar_cor, is_admin")
       .eq("id", user.id)
-      .single()
-      .then(({ data }) => {
-        if (!active || !data) return;
+      .maybeSingle()
+      .then(({ data, error }) => {
+        if (!active) return;
+        if (error) {
+          console.error("[TripVision] profile refresh error:", error);
+          return;
+        }
+        if (!data) {
+          console.warn("[TripVision] sessão órfã — usuário não existe mais no banco. Limpando.");
+          clearSession();
+          setUser(null);
+          return;
+        }
         if (
           data.nome !== user.nome ||
           data.avatar_cor !== user.avatar_cor ||
