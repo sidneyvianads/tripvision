@@ -4,57 +4,71 @@ import TabBar from "./components/TabBar";
 import Welcome from "./components/Welcome";
 import Countdown from "./components/Countdown";
 import DayCard from "./components/DayCard";
+import GroupChat from "./components/GroupChat";
 import AiChat from "./components/AiChat";
 import Checklist from "./components/Checklist";
-import TRIP_DATA from "./data/tripData";
-
-const USER_KEY = "tripvision:user";
+import Admin from "./components/Admin";
+import { useAuth } from "./hooks/useAuth";
+import { useRoteiro } from "./hooks/useRoteiro";
 
 const TAB_TITLES = {
   roteiro: "📅 Roteiro",
+  chat:    "💬 Chat do grupo",
   ia:      "🤖 Concierge IA",
   tarefas: "✅ Tarefas",
 };
 
-function loadUser() {
-  try {
-    const raw = localStorage.getItem(USER_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    return parsed?.nome ? parsed : null;
-  } catch {
-    return null;
-  }
+function getRoute() {
+  if (typeof window === "undefined") return "/";
+  return window.location.pathname || "/";
+}
+
+function navigate(path) {
+  if (typeof window === "undefined") return;
+  if (window.location.pathname === path) return;
+  window.history.pushState(null, "", path);
+  window.dispatchEvent(new PopStateEvent("popstate"));
 }
 
 export default function App() {
-  const [user, setUser] = useState(() => loadUser());
+  const { user, signOut } = useAuth();
   const [tab, setTab] = useState("roteiro");
+  const [route, setRoute] = useState(getRoute);
 
-  const handleEnter = (nome) => {
-    const value = { nome, since: new Date().toISOString() };
-    try { localStorage.setItem(USER_KEY, JSON.stringify(value)); } catch {}
-    setUser(value);
-  };
+  useEffect(() => {
+    const onPop = () => setRoute(getRoute());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   const handleLogout = () => {
-    if (!confirm("Sair? Seus dados ficam salvos neste navegador.")) return;
-    try { localStorage.removeItem(USER_KEY); } catch {}
-    setUser(null);
+    if (!confirm("Sair? Suas mensagens e progresso ficam salvos.")) return;
+    signOut();
+    navigate("/");
   };
 
-  if (!user) return <Welcome onSubmit={handleEnter} />;
+  if (!user) return <Welcome />;
+
+  if (route === "/admin") {
+    if (!user.is_admin) {
+      navigate("/");
+      return null;
+    }
+    return <Admin onBack={() => navigate("/")} />;
+  }
 
   return (
     <>
       <Layout
         tabLabel={TAB_TITLES[tab]}
-        userName={user.nome}
+        user={user}
         onLogout={handleLogout}
+        onOpenAdmin={user.is_admin ? () => navigate("/admin") : undefined}
       >
         {tab === "roteiro" && <RoteiroView />}
+        {tab === "chat"    && <GroupChat user={user} />}
         {tab === "ia"      && <AiChat />}
-        {tab === "tarefas" && <Checklist />}
+        {tab === "tarefas" && <Checklist user={user} />}
       </Layout>
       <TabBar active={tab} onChange={setTab} />
     </>
@@ -62,16 +76,22 @@ export default function App() {
 }
 
 function RoteiroView() {
+  const { days } = useRoteiro();
   const todayKey = new Date().toISOString().slice(0, 10);
 
   const initialExpanded = useMemo(() => {
-    const todayIdx = TRIP_DATA.findIndex((d) => d.date === todayKey);
-    if (todayIdx >= 0) return TRIP_DATA[todayIdx].day;
-    if (todayKey < TRIP_DATA[0].date) return 1;
+    if (!days?.length) return null;
+    const todayIdx = days.findIndex((d) => d.date === todayKey);
+    if (todayIdx >= 0) return days[todayIdx].day;
+    if (todayKey < days[0].date) return 1;
     return null;
-  }, [todayKey]);
+  }, [days, todayKey]);
 
-  const [expanded, setExpanded] = useState(initialExpanded);
+  const [expanded, setExpanded] = useState(null);
+
+  useEffect(() => {
+    if (expanded == null && initialExpanded != null) setExpanded(initialExpanded);
+  }, [initialExpanded, expanded]);
 
   useEffect(() => {
     if (expanded != null) {
@@ -86,7 +106,7 @@ function RoteiroView() {
     <div>
       <Countdown />
       <div className="px-4 mt-5 space-y-3 pb-4">
-        {TRIP_DATA.map((day) => (
+        {days.map((day) => (
           <div id={`day-${day.day}`} key={day.day} style={{ scrollMarginTop: 16 }}>
             <DayCard
               day={day}

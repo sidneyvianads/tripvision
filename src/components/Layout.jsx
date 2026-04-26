@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Phone, LogOut } from "lucide-react";
+import { Phone, LogOut, Shield } from "lucide-react";
 import Contacts from "./Contacts";
 
-export default function Layout({ tabLabel, userName, onLogout, children }) {
+export default function Layout({ tabLabel, user, onLogout, onOpenAdmin, children }) {
   const [contactsOpen, setContactsOpen] = useState(false);
 
-  const initial = (userName ?? "?").trim().charAt(0).toUpperCase();
-  const firstName = (userName ?? "").trim().split(/\s+/)[0];
+  const initial = (user?.nome ?? "?").trim().charAt(0).toUpperCase();
+  const firstName = (user?.nome ?? "").trim().split(/\s+/)[0];
+  const cor = user?.avatar_cor ?? "#FF6B6B";
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF9F5]">
@@ -19,6 +20,16 @@ export default function Layout({ tabLabel, userName, onLogout, children }) {
               {firstName ? `Olá, ${firstName}!` : "Serra Catarinense & Gaúcha 2026"}
             </div>
           </div>
+          {user?.is_admin && onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              className="rounded-full bg-white/20 hover:bg-white/30 transition p-2"
+              aria-label="Admin"
+              title="Admin"
+            >
+              <Shield className="w-4 h-4" />
+            </button>
+          )}
           <button
             onClick={() => setContactsOpen(true)}
             className="rounded-full bg-white/20 hover:bg-white/30 transition p-2"
@@ -39,7 +50,7 @@ export default function Layout({ tabLabel, userName, onLogout, children }) {
           {firstName && (
             <div
               className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0"
-              style={{ background: "rgba(255,255,255,0.25)" }}
+              style={{ background: cor, boxShadow: "0 0 0 2px rgba(255,255,255,0.4)" }}
               aria-hidden
             >
               {initial}
