@@ -103,7 +103,7 @@ const TRIP_DATA = [
     hotel: "Achei Gramado",
     hotelPhone: "",
     hotelAddress: "Av. das Hortênsias, 4268",
-    alert: "Abastecer carros na noite anterior!",
+    alert: "Parar num posto perto do aeroporto FLN antes de devolver",
     activities: [
       { time: "08:30", title: "Check-out Miramar", type: "transporte", desc: "", price: null, status: "confirmado" },
       { time: "11:00", title: "Devolver 3 carros FLN", type: "transporte", desc: "Prazo: 11h", price: null, status: "confirmado" },
@@ -238,7 +238,7 @@ const TRIP_DATA = [
     hotel: null,
     hotelPhone: "",
     hotelAddress: "",
-    alert: "Abastecer carros na noite anterior!",
+    alert: "Parar num posto perto do aeroporto POA antes de devolver",
     activities: [
       { time: "08:00", title: "Café + malas", type: "alimentacao", desc: "", price: null, status: "confirmado" },
       { time: "09:00", title: "Check-out + saída", type: "transporte", desc: "", price: null, status: "confirmado" },

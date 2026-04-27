@@ -58,7 +58,7 @@ export function useChat() {
     let active = true;
     supabase
       .from("tv_users")
-      .select("id, nome, avatar_cor")
+      .select("id, nome, avatar_cor, avatar_url")
       .in("id", missingIds)
       .then(({ data }) => {
         if (!active || !data) return;

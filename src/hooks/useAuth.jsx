@@ -33,7 +33,7 @@ export function AuthProvider({ children }) {
     let active = true;
     supabase
       .from("tv_users")
-      .select("id, nome, email, avatar_cor, is_admin")
+      .select("id, nome, email, avatar_cor, avatar_url, is_admin")
       .eq("id", user.id)
       .maybeSingle()
       .then(({ data, error }) => {
@@ -51,6 +51,7 @@ export function AuthProvider({ children }) {
         if (
           data.nome !== user.nome ||
           data.avatar_cor !== user.avatar_cor ||
+          (data.avatar_url ?? null) !== (user.avatar_url ?? null) ||
           data.is_admin !== user.is_admin
         ) {
           saveSession(data);
@@ -69,7 +70,7 @@ export function AuthProvider({ children }) {
       const hash = await sha256Hex(cleanSenha);
       const { data, error } = await supabase
         .from("tv_users")
-        .select("id, nome, email, avatar_cor, is_admin, senha_hash")
+        .select("id, nome, email, avatar_cor, avatar_url, is_admin, senha_hash")
         .ilike("email", cleanEmail)
         .maybeSingle();
       if (error) {
@@ -94,7 +95,7 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  const signUp = useCallback(async ({ nome, email, senha, avatar_cor }) => {
+  const signUp = useCallback(async ({ nome, email, senha, avatar_cor, avatar_url }) => {
     setLoading(true);
     try {
       const cleanNome  = (nome ?? "").trim();
@@ -123,8 +124,9 @@ export function AuthProvider({ children }) {
           email: cleanEmail,
           senha_hash: hash,
           avatar_cor,
+          avatar_url: avatar_url ?? null,
         })
-        .select("id, nome, email, avatar_cor, is_admin")
+        .select("id, nome, email, avatar_cor, avatar_url, is_admin")
         .single();
 
       if (error) {
@@ -149,9 +151,40 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (patch) => {
+    if (!user?.id) throw new Error("Não logado.");
+    const updates = {};
+    if (typeof patch.nome === "string") {
+      const trimmed = patch.nome.trim();
+      if (!trimmed) throw new Error("Nome não pode ficar vazio.");
+      updates.nome = trimmed;
+    }
+    if (patch.avatar_cor) updates.avatar_cor = patch.avatar_cor;
+    if (patch.avatar_url !== undefined) updates.avatar_url = patch.avatar_url || null;
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("tv_users")
+        .update(updates)
+        .eq("id", user.id)
+        .select("id, nome, email, avatar_cor, avatar_url, is_admin")
+        .single();
+      if (error) {
+        console.error("[TripVision] updateProfile error:", error);
+        throw new Error(error.message);
+      }
+      saveSession(data);
+      setUser(data);
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  }, [user?.id]);
+
   const value = useMemo(
-    () => ({ user, loading, signIn, signUp, signOut }),
-    [user, loading, signIn, signUp, signOut]
+    () => ({ user, loading, signIn, signUp, signOut, updateProfile }),
+    [user, loading, signIn, signUp, signOut, updateProfile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

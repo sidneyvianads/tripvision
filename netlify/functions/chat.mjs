@@ -9,7 +9,7 @@ ROTEIRO RESUMIDO:
 23/06: Serra Rio do Rastro (mirante 10h), BR-101, Miramar Hotel BC ~14h, Oceanic 16h-18h
 24/06: Beto Carrero dia inteiro
 25/06: Aventura Jurássica 9:30, Hard Rock Itapema 17:30
-26/06: Devolver carros 11h FLN, voo 13:40 FLN→POA, carros, Gramado ~18h (Achei Gramado)
+26/06: Abastecer carros num posto perto do aeroporto FLN antes da devolução, devolver 11h, voo 13:40 FLN→POA, carros, Gramado ~18h (Achei Gramado)
 27/06: IASD 9h, Alles Haus 12:30, Lago Negro 16h, Terrazo fondue 20h
 28/06: Supermercado, Bêrga Motta 12h, centro Canela, jantar leve
 29/06: Nova Petrópolis: Praça Flores, Labirinto, Aldeia Imigrante, Zaandam, malhas, Edelbrau
@@ -17,7 +17,7 @@ ROTEIRO RESUMIDO:
 01/07: Mundo a Vapor 9:15, Bela Vista 11:30, Il Piacere 19:30
 02/07: Casa Italiana, Casa Figueira, Pastasciutta
 03/07: Caminhos de Pedra Bento Gonçalves (dia inteiro)
-04/07: Check-out 9h, aeroporto POA, voo 14h POA→REC
+04/07: Check-out 9h, abastecer num posto perto do aeroporto POA antes da devolução, voo 14h POA→REC
 
 HOTÉIS:
 - Cold Mountain: (41) 99903-1598, Urubici

@@ -46,3 +46,41 @@ export function normalizeEmail(s) {
     .trim()
     .toLowerCase();
 }
+
+// Carrega arquivo como Image, faz crop centralizado em quadrado, redimensiona pra
+// `size` x `size` px e retorna Data URL JPEG com `quality`. Mantém banco enxuto.
+export function fileToResizedDataUrl(file, size = 200, quality = 0.7) {
+  return new Promise((resolve, reject) => {
+    if (!file) return reject(new Error("Sem arquivo."));
+    if (!file.type?.startsWith("image/")) {
+      return reject(new Error("Arquivo precisa ser uma imagem."));
+    }
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const minSide = Math.min(img.naturalWidth, img.naturalHeight);
+        const sx = (img.naturalWidth - minSide) / 2;
+        const sy = (img.naturalHeight - minSide) / 2;
+        const canvas = document.createElement("canvas");
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        URL.revokeObjectURL(url);
+        resolve(dataUrl);
+      } catch (err) {
+        URL.revokeObjectURL(url);
+        reject(err);
+      }
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Não consegui ler a imagem."));
+    };
+    img.src = url;
+  });
+}

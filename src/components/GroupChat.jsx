@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
 import { useChat } from "../hooks/useChat";
+import Avatar from "./Avatar";
 
 const formatTime = (iso) => {
   try {
@@ -59,9 +60,8 @@ export default function GroupChat({ user }) {
         {messages.map((m) => {
           const mine = m.user_id === user?.id;
           const profile = profilesById[m.user_id];
-          const cor = mine ? user?.avatar_cor : (profile?.avatar_cor ?? "#7CB9E8");
-          const nome = mine ? user?.nome : (profile?.nome ?? "Viajante");
-          const initial = (nome ?? "?").charAt(0).toUpperCase();
+          const author = mine ? user : (profile ?? { nome: "Viajante", avatar_cor: "#7CB9E8" });
+          const cor = author?.avatar_cor ?? "#7CB9E8";
 
           const day = dayKey(m.created_at);
           const showSeparator = day !== lastDay;
@@ -85,20 +85,9 @@ export default function GroupChat({ user }) {
               )}
 
               <div className={`flex gap-2 items-end animate-pop ${mine ? "justify-end" : "justify-start"}`}>
-                {!mine && (
-                  <div
-                    className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                    style={{ background: cor }}
-                  >
-                    {initial}
-                  </div>
-                )}
+                {!mine && <Avatar user={author} size={32} />}
                 <div
-                  className={`max-w-[78%] rounded-2xl px-3 py-2 ${
-                    mine
-                      ? "rounded-br-sm text-white"
-                      : "rounded-bl-sm"
-                  }`}
+                  className={`max-w-[72%] rounded-2xl px-3 py-2 ${mine ? "rounded-br-sm text-white" : "rounded-bl-sm"}`}
                   style={
                     mine
                       ? { background: "linear-gradient(135deg, #2E86C1 0%, #1B4F72 100%)", boxShadow: "0 2px 12px rgba(46, 134, 193, 0.30)" }
@@ -107,7 +96,7 @@ export default function GroupChat({ user }) {
                 >
                   {!mine && (
                     <div className="text-[11px] font-display font-bold mb-0.5" style={{ color: cor }}>
-                      {nome}
+                      {author?.nome ?? "Viajante"}
                     </div>
                   )}
                   <div className="text-sm whitespace-pre-wrap break-words">{m.content}</div>
@@ -115,6 +104,7 @@ export default function GroupChat({ user }) {
                     {formatTime(m.created_at)}
                   </div>
                 </div>
+                {mine && <Avatar user={user} size={32} />}
               </div>
             </div>
           );

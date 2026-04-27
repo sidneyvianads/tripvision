@@ -3,6 +3,7 @@ import { ArrowRight, CheckCircle2, Loader2, Mail, KeyRound, User } from "lucide-
 import { useAuth } from "../hooks/useAuth";
 import Snow from "./ambient/Snow";
 import Pines from "./ambient/Pines";
+import PhotoPicker from "./PhotoPicker";
 
 const AVATAR_COLORS = [
   { color: "#7CB9E8", label: "Azul gelo" },
@@ -25,6 +26,7 @@ export default function Welcome() {
   const [nome, setNome] = useState("");
   const [senha2, setSenha2] = useState("");
   const [cor, setCor] = useState(AVATAR_COLORS[0].color);
+  const [photo, setPhoto] = useState(null);
 
   const [success, setSuccess] = useState(null);
   const [justSignedUpEmail, setJustSignedUpEmail] = useState(null);
@@ -37,6 +39,7 @@ export default function Welcome() {
       setSenha2("");
       setNome("");
       setCor(AVATAR_COLORS[0].color);
+      setPhoto(null);
       setJustSignedUpEmail(success.email);
       setMode("login");
       setSuccess(null);
@@ -63,7 +66,7 @@ export default function Welcome() {
     if (senha.length < 6) return setErr("Senha precisa ter no mínimo 6 caracteres.");
     if (senha !== senha2) return setErr("As senhas não conferem.");
     try {
-      const created = await signUp({ nome, email, senha, avatar_cor: cor });
+      const created = await signUp({ nome, email, senha, avatar_cor: cor, avatar_url: photo });
       setSuccess({ email: created.email, nome: created.nome });
     } catch (e) {
       setErr(e.message);
@@ -126,7 +129,17 @@ export default function Welcome() {
             </p>
           </form>
         ) : (
-          <form onSubmit={handleSignup} className="mt-8 space-y-3">
+          <form onSubmit={handleSignup} className="mt-6 space-y-3">
+            <div className="flex justify-center pt-1 pb-2">
+              <PhotoPicker
+                value={photo}
+                onChange={setPhoto}
+                fallbackCor={cor}
+                fallbackInitial={(nome.trim().charAt(0) || "📸").toUpperCase()}
+                size={88}
+                disabled={isBusy}
+              />
+            </div>
             <Field icon={User} type="text" placeholder="Seu nome" value={nome} onChange={setNome} autoFocus maxLength={40} autoComplete="given-name" disabled={isBusy} />
             <Field icon={Mail} type="email" placeholder="seu@email.com" value={email} onChange={setEmail} autoComplete="email" disabled={isBusy} />
             <Field icon={KeyRound} type="password" placeholder="senha (mín. 6)" value={senha} onChange={setSenha} autoComplete="new-password" disabled={isBusy} />

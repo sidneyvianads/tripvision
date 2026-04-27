@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
 import Stars from "./ambient/Stars";
+import Avatar from "./Avatar";
 
 const INITIAL = {
   role: "assistant",
   content: "Olá! Sou o TripVision IA ❄️ Pergunte qualquer coisa sobre a viagem!",
 };
 
-export default function AiChat() {
+export default function AiChat({ user }) {
   const [messages, setMessages] = useState([INITIAL]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -74,7 +75,7 @@ export default function AiChat() {
                 </div>
               )}
               <div
-                className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap break-words ${
+                className={`max-w-[76%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap break-words ${
                   isUser ? "rounded-br-sm text-white" : "rounded-bl-sm"
                 }`}
                 style={
@@ -85,6 +86,7 @@ export default function AiChat() {
               >
                 {m.content}
               </div>
+              {isUser && user && <Avatar user={user} size={32} />}
             </div>
           );
         })}

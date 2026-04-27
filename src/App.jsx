@@ -67,7 +67,7 @@ export default function App() {
       >
         {tab === "roteiro" && <RoteiroView />}
         {tab === "chat"    && <GroupChat user={user} />}
-        {tab === "ia"      && <AiChat />}
+        {tab === "ia"      && <AiChat user={user} />}
         {tab === "tarefas" && <Checklist user={user} />}
       </Layout>
       <TabBar active={tab} onChange={setTab} />
