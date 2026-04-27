@@ -1,6 +1,6 @@
 # TripVision 🧳
 
-App PWA da viagem da família Viana — **Serra Catarinense & Serra Gaúcha**, 21/06 → 04/07/2026.
+App PWA das **Férias 2026** — **Serra Catarinense & Serra Gaúcha**, 21/06 → 04/07/2026.
 
 ## O que tem
 

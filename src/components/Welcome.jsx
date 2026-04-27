@@ -187,7 +187,7 @@ export default function Welcome() {
         )}
 
         <p className="text-center text-xs text-[#7CB9E8] mt-6 font-display font-bold tracking-wide">
-          ❄️ Família Viana · 21/06 → 04/07/2026 🏔️
+          ❄️ Férias 2026 · 21/06 → 04/07 🏔️
         </p>
       </div>
     </div>
