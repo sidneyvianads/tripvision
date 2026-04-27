@@ -1,14 +1,14 @@
 {
   "name": "TripVision",
   "short_name": "TripVision",
-  "description": "Roteiro da viagem 2026",
+  "description": "Roteiro da viagem — Inverno 2026",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF9F5",
-  "theme_color": "#FF6B6B",
+  "background_color": "#0F1B2D",
+  "theme_color": "#0F1B2D",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧳</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9D%84%EF%B8%8F</text></svg>",
       "sizes": "any",
       "type": "image/svg+xml"
     }

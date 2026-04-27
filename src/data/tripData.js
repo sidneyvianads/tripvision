@@ -2,18 +2,18 @@ export const TRIP_START = "2026-06-21T05:15:00-03:00";
 export const TRIP_END   = "2026-07-04T23:59:59-03:00";
 
 export const CITIES = {
-  "Urubici":            { gradient: "linear-gradient(135deg, #1a5276, #2e86c1)", badge: "#D6EAF8", text: "#1a5276", icon: "🏔️" },
-  "Balneário Camboriú": { gradient: "linear-gradient(135deg, #0e6655, #1abc9c)", badge: "#D1F2EB", text: "#0e6655", icon: "🏖️" },
-  "Gramado":            { gradient: "linear-gradient(135deg, #1e8449, #27ae60)", badge: "#D5F5E3", text: "#1e8449", icon: "🌲" },
-  "Recife":             { gradient: "linear-gradient(135deg, #b7950b, #f39c12)", badge: "#FEF9E7", text: "#b7950b", icon: "🌴" },
+  "Urubici":            { gradient: "linear-gradient(135deg, #1B4F72, #2E86C1)", badge: "#D6EAF8", text: "#1B4F72", icon: "🏔️" },
+  "Balneário Camboriú": { gradient: "linear-gradient(135deg, #0E4D64, #17A2B8)", badge: "#D1F2EB", text: "#0E4D64", icon: "🌊" },
+  "Gramado":            { gradient: "linear-gradient(135deg, #1B4332, #2D6A4F)", badge: "#D5F5E3", text: "#1B4332", icon: "🌲" },
+  "Recife":             { gradient: "linear-gradient(135deg, #B7950B, #F39C12)", badge: "#FEF9E7", text: "#B7950B", icon: "🌴" },
 };
 
 export const ACTIVITY_TYPES = {
-  transporte:  { color: "#9B59B6", bg: "#F4ECF7", icon: "🚗", label: "Transporte" },
-  passeio:    { color: "#2ECC71", bg: "#D5F5E3", icon: "✨", label: "Passeio" },
-  alimentacao:{ color: "#FF8E53", bg: "#FDEBD0", icon: "🍽️", label: "Refeição" },
-  hospedagem: { color: "#3498DB", bg: "#D6EAF8", icon: "🏨", label: "Hotel" },
-  livre:      { color: "#B2BEC3", bg: "#F4F6F7", icon: "🌟", label: "Livre" },
+  transporte:  { color: "#3498DB", bg: "#D6EAF8", icon: "🚗", label: "Transporte" },
+  passeio:     { color: "#27AE60", bg: "#D5F5E3", icon: "✨", label: "Passeio" },
+  alimentacao: { color: "#E8834A", bg: "#FDEBD0", icon: "🔥", label: "Refeição" },
+  hospedagem:  { color: "#8E44AD", bg: "#EBDEF0", icon: "🏨", label: "Hotel" },
+  livre:       { color: "#7CB9E8", bg: "#E8F0FE", icon: "❄️", label: "Livre" },
 };
 
 const TRIP_DATA = [

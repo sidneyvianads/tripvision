@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2, Mail, KeyRound, User } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
+import Snow from "./ambient/Snow";
+import Pines from "./ambient/Pines";
 
 const AVATAR_COLORS = [
-  { color: "#FF6B6B", label: "Coral" },
-  { color: "#FF8E53", label: "Laranja" },
-  { color: "#2ECC71", label: "Verde" },
-  { color: "#3498DB", label: "Azul" },
-  { color: "#9B59B6", label: "Roxo" },
-  { color: "#F1C40F", label: "Amarelo" },
+  { color: "#7CB9E8", label: "Azul gelo" },
+  { color: "#2E86C1", label: "Azul montanha" },
+  { color: "#27AE60", label: "Verde pinheiro" },
+  { color: "#E8834A", label: "Laranja lareira" },
+  { color: "#D4A574", label: "Dourado" },
+  { color: "#8E44AD", label: "Roxo" },
 ];
 
 const REDIRECT_DELAY_MS = 2000;
@@ -69,7 +71,10 @@ export default function Welcome() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center px-5 py-10 gradient-coral relative">
+    <div className="min-h-screen w-full flex items-center justify-center px-5 py-10 gradient-night relative overflow-hidden">
+      <Snow count={70} />
+      <Pines className="h-24 opacity-40" color="#0A1320" />
+
       {success && (
         <div
           role="status"
@@ -83,11 +88,12 @@ export default function Welcome() {
         </div>
       )}
 
-      <div className="card w-full max-w-md p-8 animate-fade-up">
+      <div className="card w-full max-w-md p-8 animate-fade-up relative z-10">
         <div className="text-center">
-          <div className="text-6xl mb-3">🧳</div>
-          <h1 className="text-3xl text-[#2D3436]">TripVision</h1>
-          <p className="text-[#636E72] mt-1">Serra Catarinense & Gaúcha 2026</p>
+          <div className="text-6xl mb-3">❄️</div>
+          <h1 className="text-3xl text-[#0F1B2D]">TripVision</h1>
+          <p className="text-[#1A3A4A] mt-1 font-display font-bold text-sm">Serra Catarinense & Gaúcha</p>
+          <p className="text-[#7CB9E8] text-xs font-display font-bold uppercase tracking-widest mt-0.5">Inverno 2026</p>
         </div>
 
         {mode === "login" ? (
@@ -180,8 +186,8 @@ export default function Welcome() {
           </form>
         )}
 
-        <p className="text-center text-xs text-[#B2BEC3] mt-6">
-          Família Viana • 21/06 → 04/07/2026
+        <p className="text-center text-xs text-[#7CB9E8] mt-6 font-display font-bold tracking-wide">
+          ❄️ Família Viana · 21/06 → 04/07/2026 🏔️
         </p>
       </div>
     </div>

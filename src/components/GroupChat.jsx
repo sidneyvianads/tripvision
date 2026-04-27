@@ -45,18 +45,21 @@ export default function GroupChat({ user }) {
   let lastDay = null;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-180px)] px-3">
+    <div
+      className="flex flex-col h-[calc(100vh-180px)] px-3"
+      style={{ background: "linear-gradient(180deg, #0D1B2A 0%, #0F1B2D 100%)" }}
+    >
       <div ref={scrollerRef} className="flex-1 overflow-y-auto py-3 space-y-2 scrollbar-hide">
-        {loading && <div className="text-center text-[#B2BEC3] text-sm py-6">Carregando…</div>}
+        {loading && <div className="text-center text-[#7CB9E8]/60 text-sm py-6">Carregando…</div>}
         {!loading && messages.length === 0 && (
-          <div className="text-center text-[#B2BEC3] text-sm py-10">
-            Nenhuma mensagem ainda.<br />Manda a primeira! 🎉
+          <div className="text-center text-[#7CB9E8]/60 text-sm py-10">
+            Nenhuma mensagem ainda.<br />Manda a primeira! ❄️
           </div>
         )}
         {messages.map((m) => {
           const mine = m.user_id === user?.id;
           const profile = profilesById[m.user_id];
-          const cor = mine ? user?.avatar_cor : (profile?.avatar_cor ?? "#B2BEC3");
+          const cor = mine ? user?.avatar_cor : (profile?.avatar_cor ?? "#7CB9E8");
           const nome = mine ? user?.nome : (profile?.nome ?? "Viajante");
           const initial = (nome ?? "?").charAt(0).toUpperCase();
 
@@ -68,7 +71,14 @@ export default function GroupChat({ user }) {
             <div key={m.id}>
               {showSeparator && (
                 <div className="my-3 flex justify-center">
-                  <span className="text-[10px] uppercase font-display font-bold tracking-wide text-[#B2BEC3] bg-white px-3 py-1 rounded-full shadow-[0_2px_8px_rgba(255,107,107,0.06)]">
+                  <span
+                    className="text-[10px] uppercase font-display font-bold tracking-wide px-3 py-1 rounded-full"
+                    style={{
+                      background: "rgba(124, 185, 232, 0.12)",
+                      color: "#7CB9E8",
+                      border: "1px solid rgba(124, 185, 232, 0.20)",
+                    }}
+                  >
                     {formatDayLabel(m.created_at)}
                   </span>
                 </div>
@@ -86,9 +96,14 @@ export default function GroupChat({ user }) {
                 <div
                   className={`max-w-[78%] rounded-2xl px-3 py-2 ${
                     mine
-                      ? "bg-gradient-to-br from-[#FF6B6B] to-[#FF8E53] text-white rounded-br-sm"
-                      : "bg-white text-[#2D3436] rounded-bl-sm shadow-[0_2px_8px_rgba(255,107,107,0.06)]"
+                      ? "rounded-br-sm text-white"
+                      : "rounded-bl-sm"
                   }`}
+                  style={
+                    mine
+                      ? { background: "linear-gradient(135deg, #2E86C1 0%, #1B4F72 100%)", boxShadow: "0 2px 12px rgba(46, 134, 193, 0.30)" }
+                      : { background: "rgba(232, 240, 254, 0.95)", color: "#0F1B2D", boxShadow: "0 2px 8px rgba(0, 0, 0, 0.20)" }
+                  }
                 >
                   {!mine && (
                     <div className="text-[11px] font-display font-bold mb-0.5" style={{ color: cor }}>
@@ -96,7 +111,7 @@ export default function GroupChat({ user }) {
                     </div>
                   )}
                   <div className="text-sm whitespace-pre-wrap break-words">{m.content}</div>
-                  <div className={`text-[10px] mt-1 tabular ${mine ? "text-white/70" : "text-[#B2BEC3]"}`}>
+                  <div className={`text-[10px] mt-1 tabular ${mine ? "text-white/70" : "text-[#1A3A4A]/60"}`}>
                     {formatTime(m.created_at)}
                   </div>
                 </div>
@@ -108,7 +123,7 @@ export default function GroupChat({ user }) {
 
       <form onSubmit={handleSend} className="flex items-center gap-2 py-3 sticky bottom-0">
         <input
-          className="input flex-1"
+          className="input input-dark flex-1"
           placeholder="Mensagem para o grupo…"
           value={text}
           onChange={(e) => setText(e.target.value)}

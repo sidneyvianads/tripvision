@@ -9,22 +9,22 @@ export default function DayCard({ day, expanded, onToggle, isToday }) {
     <article
       className="card overflow-hidden transition-shadow"
       style={{
-        borderLeft: `4px solid ${city?.text ?? "#FF8E53"}`,
+        borderLeft: `4px solid ${city?.text ?? "#7CB9E8"}`,
         boxShadow: expanded
-          ? "0 8px 24px rgba(255,107,107,0.16)"
-          : "0 2px 12px rgba(255,107,107,0.08)",
+          ? "0 12px 28px rgba(15, 27, 45, 0.35)"
+          : "0 4px 16px rgba(15, 27, 45, 0.18)",
       }}
     >
       <button
         onClick={onToggle}
-        className="w-full text-left flex items-center gap-3 p-4 hover:bg-[#FFF9F5]/60 transition-colors"
+        className="w-full text-left flex items-center gap-3 p-4 hover:bg-[#E8F0FE]/40 transition-colors"
         aria-expanded={expanded}
       >
         <div className="text-3xl select-none">{day.cover}</div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-[11px] font-display font-bold tabular text-[#B2BEC3] uppercase tracking-wide">
+            <span className="text-[11px] font-display font-bold tabular text-[#1A3A4A] uppercase tracking-wide">
               Dia {day.day} • {day.weekday} {formatBR(day.date)}
             </span>
             {isToday && (
@@ -34,7 +34,7 @@ export default function DayCard({ day, expanded, onToggle, isToday }) {
               <span className="badge bg-amber-100 text-amber-800">⚠️</span>
             )}
           </div>
-          <div className="font-display font-extrabold text-base text-[#2D3436] leading-tight mt-0.5 truncate">
+          <div className="font-display font-extrabold text-base text-[#0F1B2D] leading-tight mt-0.5 truncate">
             {day.title}
           </div>
           <div className="mt-1 flex items-center gap-2">
@@ -45,14 +45,14 @@ export default function DayCard({ day, expanded, onToggle, isToday }) {
               <span>{city?.icon}</span>
               {day.city}
             </span>
-            <span className="text-xs text-[#B2BEC3] font-display font-bold">
+            <span className="text-xs text-[#1A3A4A]/70 font-display font-bold">
               {day.activities.length} {day.activities.length === 1 ? "atividade" : "atividades"}
             </span>
           </div>
         </div>
 
         <ChevronDown
-          className="w-5 h-5 text-[#B2BEC3] shrink-0 transition-transform"
+          className="w-5 h-5 text-[#7CB9E8] shrink-0 transition-transform"
           style={{ transform: expanded ? "rotate(180deg)" : "rotate(0deg)" }}
         />
       </button>

@@ -13,8 +13,8 @@ export default function Admin({ onBack }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#FFF9F5]">
-        <Loader2 className="w-8 h-8 animate-spin text-[#FF6B6B]" />
+      <div className="min-h-screen flex items-center justify-center gradient-winter">
+        <Loader2 className="w-8 h-8 animate-spin text-[#7CB9E8]" />
       </div>
     );
   }
@@ -30,7 +30,7 @@ export default function Admin({ onBack }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF9F5]">
+    <div className="min-h-screen flex flex-col gradient-winter">
       <header className="gradient-header text-white safe-top">
         <div className="px-4 py-4 flex items-center gap-3">
           <button onClick={onBack} className="rounded-full bg-white/20 hover:bg-white/30 p-2" aria-label="Voltar">
@@ -115,7 +115,7 @@ function DayEditor({ day: initial, onCancel, onSaved }) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFF9F5]">
+    <div className="min-h-screen flex flex-col gradient-winter">
       <header className="gradient-header text-white safe-top">
         <div className="px-4 py-4 flex items-center gap-2">
           <button onClick={onCancel} className="rounded-full bg-white/20 hover:bg-white/30 p-2" aria-label="Voltar">
@@ -127,7 +127,7 @@ function DayEditor({ day: initial, onCancel, onSaved }) {
             </div>
             <div className="font-display font-extrabold text-lg leading-tight truncate">{day.title}</div>
           </div>
-          <button onClick={handleSave} className="rounded-full bg-white text-[#FF6B6B] px-3 py-2 inline-flex items-center gap-1.5 text-sm font-display font-extrabold disabled:opacity-50" disabled={saving}>
+          <button onClick={handleSave} className="rounded-full bg-white text-[#7CB9E8] px-3 py-2 inline-flex items-center gap-1.5 text-sm font-display font-extrabold disabled:opacity-50" disabled={saving}>
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Salvar
           </button>
@@ -152,7 +152,7 @@ function DayEditor({ day: initial, onCancel, onSaved }) {
         <section className="space-y-2">
           <div className="flex items-center justify-between px-1">
             <div className="font-display font-extrabold">Atividades ({day.activities.length})</div>
-            <button onClick={addActivity} className="text-sm font-display font-bold text-[#FF6B6B] inline-flex items-center gap-1">
+            <button onClick={addActivity} className="text-sm font-display font-bold text-[#7CB9E8] inline-flex items-center gap-1">
               <Plus className="w-4 h-4" /> Adicionar
             </button>
           </div>
