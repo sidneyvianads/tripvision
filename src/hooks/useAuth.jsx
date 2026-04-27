@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { supabase, sha256Hex, normalizePassword, normalizeEmail } from "../lib/supabase";
 
 const SESSION_KEY = "tripvision:user:v2";
@@ -22,7 +22,9 @@ function clearSession() {
   try { localStorage.removeItem(SESSION_KEY); } catch {}
 }
 
-export function useAuth() {
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => loadSession());
   const [loading, setLoading] = useState(false);
 
@@ -147,5 +149,18 @@ export function useAuth() {
     setUser(null);
   }, []);
 
-  return { user, loading, signIn, signUp, signOut };
+  const value = useMemo(
+    () => ({ user, loading, signIn, signUp, signOut }),
+    [user, loading, signIn, signUp, signOut]
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth precisa estar dentro de <AuthProvider>");
+  }
+  return ctx;
 }
